@@ -1,0 +1,28 @@
+def quality_report(data):
+    miss = []
+    ana = []
+
+    for rec in data:
+        if any(value is None for value in rec.values()):
+            miss.append(rec["id"])
+        
+        
+        if (rec.get("age") is not None and (rec["age"] < 0 or rec["age"] > 100)) or \
+           (rec.get("salary") is not None and rec["salary"] < 0):
+            ana.append(rec["id"])
+
+    return {"missing_values": miss, "anomalous_values": ana}
+
+data = [
+    {"id": 1, "name": "Alice", "age": 29, "salary": 50000},
+    {"id": 2, "name": None, "age": 34, "salary": 60000},
+    {"id": 3, "name": "Bob", "age": None, "salary": 55000},
+    {"id": 4, "name": "Charlie", "age": 45, "salary": None},
+    {"id": 5, "name": "David", "age": 32, "salary": 70000},
+    {"id": 6, "name": "Eva", "age": 29, "salary": 60000},
+    {"id": 7, "name": "Frank", "age": 120, "salary": 80000},
+    {"id": 8, "name": "Grace", "age": 28, "salary": -5000}
+]
+
+rept = quality_report(data)
+print(rept)
